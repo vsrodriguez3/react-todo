@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-function TodoListItem(props) {
+function TodoListItem({ title }) {
     return (
         <li>
-          {props.title}
+          {title}
         </li>
     );
 };
