@@ -3,21 +3,27 @@ import { useEffect } from 'react';
 import TodoList from './TodoList';
 import AddTodoForm from './AddTodoForm';
 
-function useSemiPersistentState() {
-  const [todoList, setTodoList] = useState(() => 
-    JSON.parse(localStorage.getItem('savedTodoList')) || []
-  );
+function App() {
+  const [todoList, setTodoList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    localStorage.setItem('savedTodoList', JSON.stringify(todoList))
+    new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve({ data: { todoList: JSON.parse(localStorage.getItem('savedTodoList')) || [] } }); 
+      }, 2000); 
+    })
+    .then((result) => {
+      setTodoList(result.data.todoList);
+      setIsLoading(false);
+    });
+  }, []); 
 
+  useEffect(() => {
+    if (isLoading === false) {
+      localStorage.setItem('savedTodoList', JSON.stringify(todoList));
+    }
   }, [todoList]);
-
-  return [todoList, setTodoList];
-}
-
-function App() {
-  const [todoList, setTodoList] = useSemiPersistentState();
 
   function addTodo(newTodo) {
     setTodoList(prevList => [...prevList, newTodo]);
@@ -31,8 +37,7 @@ function App() {
     <>
       <h1>To-Do List</h1>
       <AddTodoForm onAddTodo={addTodo} />
-      <p></p>
-      <TodoList todoList={todoList} onRemoveTodo={removeTodo}/>
+      {isLoading ? <p>Loading...</p> : <TodoList todoList={todoList} onRemoveTodo={removeTodo} />}
     </>
   );
 };
