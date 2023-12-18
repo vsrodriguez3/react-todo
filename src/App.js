@@ -8,7 +8,6 @@ function App() {
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   
-  
   async function fetchData() {
     const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${process.env.REACT_APP_TABLE_NAME}`;
 
@@ -28,7 +27,7 @@ function App() {
       const data = await response.json();
 
       const todos = data.records.map(record => ({
-        title: record.fields.Title, 
+        title: record.fields.title, 
         id: record.id
       })); 
 
