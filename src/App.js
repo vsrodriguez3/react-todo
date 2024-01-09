@@ -3,20 +3,43 @@ import { useEffect } from 'react';
 import TodoList from './TodoList';
 import AddTodoForm from './AddTodoForm';
 
+
 function App() {
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  
+  async function fetchData() {
+    const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${process.env.REACT_APP_TABLE_NAME}`;
+
+    const options = {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${process.env.REACT_APP_AIRTABLE_API_TOKEN}`
+      }
+    }
+
+    try {
+      const response = await fetch(url, options);
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      };
+
+      const data = await response.json();
+
+      const todos = data.records.map(record => ({
+        title: record.fields.title, 
+        id: record.id
+      })); 
+
+      setTodoList(todos);
+      setIsLoading(false);
+    } catch (error) {
+      console.log('There was an error:', error);
+    }
+  }
 
   useEffect(() => {
-    new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve({ data: { todoList: JSON.parse(localStorage.getItem('savedTodoList')) || [] } }); 
-      }, 2000); 
-    })
-    .then((result) => {
-      setTodoList(result.data.todoList);
-      setIsLoading(false);
-    });
+    fetchData();
   }, []); 
 
   useEffect(() => {
