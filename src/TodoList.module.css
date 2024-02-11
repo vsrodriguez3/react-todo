@@ -1,0 +1,12 @@
+.todoListContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+}
+  
+.todoList {
+    list-style-type: circle;
+    padding: 0;
+    text-align: left;
+}

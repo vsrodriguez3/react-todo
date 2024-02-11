@@ -22,7 +22,7 @@ function AddTodoForm({ onAddTodo }) {
                 handleTitleChange={handleTitleChange} 
                 autoFocus
             >
-                Title 
+                Task Title 
             </InputWithLabel>
         </form>
     );

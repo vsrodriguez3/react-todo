@@ -1,0 +1,30 @@
+.formGroup {
+  margin-top: 20px;
+  display: flex;
+  align-items: center; 
+  gap: 5px; 
+  color: #002d26;
+}
+
+.label {
+  margin-right: 3px;
+}
+  
+.inputText {
+  border: 1px solid #002d26;
+  border-radius: 3px;;
+  background: transparent;
+}
+
+.addButton {
+  padding: 0; 
+  margin-left: 0px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: fit-content; 
+  color: #002d26
+}
