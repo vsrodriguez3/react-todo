@@ -1,17 +1,21 @@
 import React from 'react';
+import style from './TodoListItem.module.css';
+import { FaTrash } from "react-icons/fa";
+
 
 function TodoListItem({ title, id, onRemoveTodo }) {
-
+  
   return (
-      <li>
-        {title}
-        <button 
-          type="button" 
-          onClick={() => onRemoveTodo(id)}
-        >
-          Remove
-        </button>
-      </li>
+    <li className={style.ListItem}>
+      {title}
+      <button
+        className={style.trashButton} 
+        type="button" 
+        onClick={() => onRemoveTodo(id)}
+      >
+        <FaTrash className={style.trashIcon} />
+      </button>
+    </li>
   );
 };
 

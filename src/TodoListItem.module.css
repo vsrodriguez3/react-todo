@@ -1,0 +1,19 @@
+.ListItem {
+    color: #002d26;
+    font-weight: 300;
+}
+
+.ListItem button {
+    margin-left: 5px; 
+}
+
+.trashButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+  
+.trashIcon {
+    color: #002d26; 
+    font-size: 12px; 
+}
