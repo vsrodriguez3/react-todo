@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import style from './InputWithLabel.module.css'
 import { FaPlus } from 'react-icons/fa';
+import PropTypes from 'prop-types';
 
 
 function InputWithLabel(props) {
@@ -28,5 +29,12 @@ function InputWithLabel(props) {
         </div>
     )
 }
+
+// propTypes 
+InputWithLabel.propTypes = {
+    todoTitle: PropTypes.string.isRequired,
+    handleTitleChange: PropTypes.func.isRequired, 
+    children: PropTypes.node.isRequired 
+};
 
 export default InputWithLabel
