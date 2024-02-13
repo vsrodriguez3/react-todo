@@ -11,7 +11,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   
   async function fetchData() {
-    const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${process.env.REACT_APP_TABLE_NAME}`;
+    const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${process.env.REACT_APP_TABLE_NAME}?view=Grid%20view&sort%5B0%5D%5Bfield%5D=title&sort%5B0%5D%5Bdirection%5D=asc`;
 
     const options = {
       method: 'GET',
@@ -27,6 +27,21 @@ function App() {
       };
 
       const data = await response.json();
+
+      // Sorting lesson-5-1
+      data.records.sort((objectA, objectB) => {
+        const titleA = objectA.fields.title.toUpperCase(); 
+        const titleB = objectB.fields.title.toUpperCase();
+        if (titleA < titleB) {
+          return 1;
+        }
+        if (titleA > titleB) {
+          return -1;
+        } else {
+          return 0; 
+        }
+      });
+      // Sorting ends
 
       const todos = data.records.map(record => ({
         title: record.fields.title, 
