@@ -4,18 +4,18 @@ import PropTypes from 'prop-types';
 
 function AddTodoForm({ onAddTodo }) {
     const [todoTitle, setTodoTitle] = useState('')
-
+    
     function handleTitleChange(event) {
-        const newTodoTitle = event.target.value;
-        setTodoTitle(newTodoTitle);
+        setTodoTitle(event.target.value);
+        console.log(event.target)
     }
 
     function handleAddTodo(event) {
         event.preventDefault();
-        onAddTodo({ title: todoTitle, id: Date.now() });
-        setTodoTitle('');
+        onAddTodo(todoTitle); 
+        setTodoTitle(''); 
     };
-    
+
     return (
         <form onSubmit={handleAddTodo}>
             <InputWithLabel 

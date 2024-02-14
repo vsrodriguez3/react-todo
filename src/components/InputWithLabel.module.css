@@ -9,12 +9,6 @@
 .label {
   margin-right: 3px;
 }
-  
-.inputText {
-  border: 1px solid #002d26;
-  border-radius: 3px;;
-  background: transparent;
-}
 
 .addButton {
   padding: 0; 
@@ -27,4 +21,15 @@
   align-items: center;
   height: fit-content; 
   color: #002d26
+}
+
+.inputField {
+  border: 1px solid #002d26; 
+  background: transparent;
+  border-radius: 3px;
+}
+
+.inputField:focus {
+  outline: none; 
+  
 }
