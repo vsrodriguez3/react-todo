@@ -18,7 +18,7 @@ function InputWithLabel(props) {
                 type="text" 
                 id="todoTitle" 
                 name="title" 
-                className={style.inputText}
+                className={style.inputField}
                 value={props.todoTitle} 
                 onChange={props.handleTitleChange}
                 ref={inputRef} 

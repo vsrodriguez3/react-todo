@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import TodoList from './components/TodoList';
 import AddTodoForm from './components/AddTodoForm';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, NavLink,  } from 'react-router-dom';
 import style from './App.module.css';
 
 
@@ -27,6 +27,7 @@ function App() {
       };
 
       const data = await response.json();
+
 
       // Sorting lesson-5-1
       data.records.sort((objectA, objectB) => {
@@ -55,6 +56,44 @@ function App() {
     }
   }
 
+// start POST
+  const postTodoToAirtable = async (newTodoTitle) => {
+    const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${process.env.REACT_APP_TABLE_NAME}`;
+    
+    const data = {
+      fields: {
+        title: newTodoTitle,
+      },
+    };
+  
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_API_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+  
+      const responseData = await response.json();
+  
+      //update state to include new task
+      setTodoList((prevList) => [...prevList, {
+        id: responseData.id, 
+        title: newTodoTitle, 
+      }]);
+    } catch (error) {
+      console.error('There was an error:', error);
+    }
+  };
+// end POST   
+
+
   useEffect(() => {
     fetchData();
   }, []); 
@@ -65,8 +104,8 @@ function App() {
     }
   }, [todoList, isLoading]);
 
-  function addTodo(newTodo) {
-    setTodoList(prevList => [...prevList, newTodo]);
+  function addTodo(todoTitle) {
+    postTodoToAirtable(todoTitle);
   }
 
   function removeTodo(id) {
@@ -101,23 +140,35 @@ function App() {
 
   const personName = "Vanessa Rodriguez";
   const currentDate = new Date().toLocaleDateString();
+
+
 /*-------------------------Sidebar info ends here-------------------------*/
 
   return (
-    <div className={style.appBackground}>
-      <div className={style.sidebar}>
-        <div className={style.personInfo}>
-          <h3>{personName}</h3>
-          <p>{currentDate}</p>
-          <p>{currentTime}</p>
+    <BrowserRouter> 
+      <div className={style.appBackground}>
+        <div className={style.sidebar}>
+          <div className={style.personInfo}>
+            <h3>{personName}</h3>
+            <p>{currentDate}</p>
+            <p>{currentTime}</p>
+          </div>
+          <nav className={style.sidebarNav}>
+            <ul>
+              <li>
+                <NavLink to="/" className={({ isActive }) => isActive ? style.activeLink : style.link}>Dashboard</NavLink>
+              </li>
+              <li>
+                <NavLink to="/new" className={({ isActive }) => isActive ? style.activeLink : style.link}>New List</NavLink>
+              </li>
+            </ul>
+          </nav>
         </div>
-      </div>
-      <div className={style.mainContent}>
-        <blockquote className={style.inspirationalQuote}>
-          "The only way to do great work is to love what you do."
-          <footer className={style.quoteAuthor}>—Steve Jobs</footer>
-        </blockquote>
-        <BrowserRouter>
+        <div className={style.mainContent}>
+          <blockquote className={style.inspirationalQuote}>
+            "The only way to do great work is to love what you do."
+            <footer className={style.quoteAuthor}>—Steve Jobs</footer>
+          </blockquote>
           <Routes>
             <Route path="/" element={
               <>
@@ -130,12 +181,17 @@ function App() {
                 <AddTodoForm onAddTodo={addTodo} />
               </>
             } />
-            <Route path="/new" element={<h1>New To-Do List</h1>} />
+            <Route path="/new" element={ 
+              <>
+                <h1>New List</h1>
+                <AddTodoForm onAddTodo={addTodo} />
+              </>
+            } />
           </Routes>
-        </BrowserRouter>
+        </div>
       </div>
-    </div>
+    </BrowserRouter>
   );
-};
+}
 
 export default App;

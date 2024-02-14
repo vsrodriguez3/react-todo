@@ -64,6 +64,44 @@ html, body {
     margin-top: 10px; 
 }
 
+.sidebarNav {
+    margin-top: 100px; 
+    font-weight: lighter;
+    font-size: 14px;
+}
+
+.sidebarNav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+  
+.link {
+    text-decoration: none;
+    color: #8ab9b1;
+}
+
+.link:hover {
+    color: white; 
+    font-weight: bold;
+}
+  
+.activeLink {
+    position: relative; 
+    text-decoration: none; 
+    display: block; 
+    padding: 3px 20px; 
+    color: white; 
+    font-weight: bold;
+}
+  
+.activeLink::after {
+    content: '→'; 
+    position: absolute;
+    left: 1px; 
+    top: 3px;
+}
+
 
 /* responsive for phone */
 @media (max-width: 600px) {
@@ -84,6 +122,9 @@ html, body {
     .inspirationalQuote {
         display: none;
     }
+    .sidebarNav {
+        margin-top: 50px; 
+    }
 }
 
 
@@ -98,4 +139,4 @@ html, body {
         font-size: 18px; 
         margin-top: 300px; 
     }
-  }
+}
